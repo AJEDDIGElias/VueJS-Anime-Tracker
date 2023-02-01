@@ -45,15 +45,22 @@ const addAnime = anime => {
   localStorage.setItem('my-anime', JSON.stringify(my_anime.value))
 }
 
+//Fonction pour incrementer le nombre d'épisode vu
 const increaseWatch = anime => {
   anime.watched_episodes++
   localStorage.setItem('my-anime', JSON.stringify(my_anime.value))
 }
 
+//Fonction pour décrémenter le nombre d'épisode vu
 const decreaseWatch = anime => {
   anime.watched_episodes--
   localStorage.setItem('my-anime', JSON.stringify(my_anime.value))
 }
+
+//Fonction qui au chargement vérifie si le localStorage a des données sinon initialise
+onMounted(() => {
+  my_anime.value = JSON.parse(localStorage.getItem('my-anime')) || []
+})
 
 
 </script>
