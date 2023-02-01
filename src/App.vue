@@ -1,29 +1,67 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, computed, onMounted } from 'vue'
+
+//Variable qui serviront à stocker les données
+const query = ref('')
+const my_anime = ref([])
+const search_result = ref([])
+
+//Variable pour la liste croissante des animes
+const my_anime_asc = computed(() => {
+  return my_anime.value.sort((a, b) => {
+    return a.title.localeCompare(b.title)
+  })
+})
+
+//Fonction de recherche d'anime
+const searchAnime = () => {
+  const url = `https://api.jikan.moe/v4/anime?q=${query.value}`
+  fetch(url)
+  .then(res => res.json())
+  .then(res => {
+    search_result.value = res.data
+  })
+}
+
+//Fonction qui va vérifier que si la recherche est vide, on vide le resultat 
+const handleInput = e => {
+  if(!e.target.value){
+    search_result.value = []
+  }
+}
+
+//Fonction qui ajoute des animes a la watchlist
+const addAnime = anime => {
+  search_result.value = []
+  query.value = ''
+  my_anime.value.push({
+    id: anime.mal_id,
+    image: anime.images.jpg.image_url,
+    total_episodes: anime.episodes,
+    watched_episodes: 0
+
+  })
+
+  localStorage.setItem('my-anime', JSON.stringify(my_anime.value))
+}
+
+const increaseWatch = anime => {
+  anime.watched_episodes++
+  localStorage.setItem('my-anime', JSON.stringify(my_anime.value))
+}
+
+const decreaseWatch = anime => {
+  anime.watched_episodes--
+  localStorage.setItem('my-anime', JSON.stringify(my_anime.value))
+}
+
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <main>Hello World !</main>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+<style>
+
 </style>
