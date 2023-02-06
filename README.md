@@ -12,7 +12,7 @@
 - [📄 License](#-license-)
 
 ## ❓ Why? [🔝](#-table-of-contents)
-The goal of this project was to learn the basics of ReactJS. This project was a big project : a anime watchlist application. 
+The goal of this project was to learn the basics of VueJS. This project was a big project : a anime watchlist application. 
 In this page, we can :
 - Search for every anime
 - Read the synopsis of every anime
